@@ -17,5 +17,5 @@ def fixable?(report)
   end
 end
 
-puts reports.filter { |report| safe?(report) }.count
-puts reports.filter { |report| safe?(report) || fixable?(report) }.count
+puts reports.filter { |report| safe?(report) }.size
+puts reports.filter { |report| safe?(report) || fixable?(report) }.size
