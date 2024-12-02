@@ -5,7 +5,7 @@ reports = ARGF.readlines.map(&:split).map { |report| report.map(&:to_i) }
 def safe?(report)
   changes = report.each_cons(2).map { |a, b| b - a }
 
-  changes.all? { |a| a.abs <= 3 } && (changes.all?(&:positive?) || changes.all?(&:negative?))
+  changes.all? { |a| [1, 2, 3].include? a } || changes.all? { |a| [-1, -2, -3].include? a }
 end
 
 def fixable?(report)
@@ -17,4 +17,5 @@ def fixable?(report)
   end
 end
 
+puts reports.filter { |report| safe?(report) }.count
 puts reports.filter { |report| safe?(report) || fixable?(report) }.count
