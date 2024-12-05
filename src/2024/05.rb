@@ -16,13 +16,7 @@ end
 
 def sorter(rules)
   proc { |a, b|
-    if rules[a].include? b
-      -1
-    elsif rules[b].include? a
-      1
-    else
-      0
-    end
+    rules[a].include?(b) ? -1 : 1
   }
 end
 
