@@ -11,7 +11,7 @@ def parse(input)
 
   pages = p.split.map { _1.split(',') }
 
-  { r: rules, p: pages }
+  [rules, pages]
 end
 
 def sorter(rules)
@@ -28,15 +28,10 @@ def middle(arr)
   arr[arr.size / 2]
 end
 
-puzzle = parse(ARGF.read)
-
-pages = puzzle[:p]
-rules = puzzle[:r]
-
+rules, pages = parse(ARGF.read)
 correct, incorrect = pages.partition { |p| ok?(p, rules) }
 
 part1 = correct.map { |p| middle(p) }.map(&:to_i).sum
-
 part2 = incorrect.map { |p| p.sort(&sorter(rules)) }.map { |p| middle(p) }.map(&:to_i).sum
 
 puts part1
