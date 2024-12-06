@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'set'
+
 sp = [0, 0]
 input = ARGF.readlines
 
@@ -13,36 +15,21 @@ map = input.each_with_index.map do |row, y|
   end
 end.flatten(1).to_h
 
-visited = {}
+def travel(map, start)
+  visited = Set.new
 
-facing = Complex(0, -1)
-loc = sp
-while map.include? loc
-  visited[loc] = true
-  x, y = loc
-  dx, dy = facing.rect
-
-  nx = x + dx
-  ny = y + dy
-
-  if map[[nx, ny]]
-    facing *= Complex(0, 1)
-  else
-    loc = [nx, ny]
-  end
-end
-
-part1 = visited.size
-
-def loops(map, start)
-  visited = {}
   loc = start
   facing = Complex(0, -1)
 
-  while map.include? loc
-    return true if visited.include? [loc, facing]
+  res = :exit
 
-    visited[[loc, facing]] = true
+  while map.include? loc
+    if visited.include? [loc, facing]
+      res = :loop
+      break
+    end
+
+    visited.add [loc, facing]
 
     x, y = loc
     dx, dy = facing.rect
@@ -57,18 +44,21 @@ def loops(map, start)
     end
   end
 
-  false
+  [res, visited.map { _1[0] }.uniq]
 end
 
-part2 = 0
+_, part1 = travel(map, sp)
 
-visited.each_key do |k|
-  next if k == sp
-
-  m = map.dup
-  m[k] = true
-  part2 += 1 if loops(m, sp)
+part2 = part1.filter do |k|
+  if k == sp
+    false
+  else
+    m = map.dup
+    m[k] = true
+    res, = travel(m, sp)
+    res == :loop
+  end
 end
 
-puts part1
-puts part2
+puts part1.size
+puts part2.size
