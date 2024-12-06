@@ -61,14 +61,13 @@ def loops(map, start)
 end
 
 part2 = 0
-height.times do |y|
-  width.times do |x|
-    next if [x, y] == sp
 
-    m = map.dup
-    m[[x, y]] = true
-    part2 += 1 if loops(m, sp)
-  end
+visited.each_key do |k|
+  next if k == sp
+
+  m = map.dup
+  m[k] = true
+  part2 += 1 if loops(m, sp)
 end
 
 puts part1
