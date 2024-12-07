@@ -36,5 +36,5 @@ part2 = puzzle.filter_map do |n, vs|
   n if ok?(n, vs, true)
 end.sum
 
-raise "part1 wrong" unless part1 == 3_598_800_864_292
-raise "part2 wrong" unless part2 == 340_362_529_351_427
+raise 'part1 wrong' unless part1 == 3_598_800_864_292
+raise 'part2 wrong' unless part2 == 340_362_529_351_427
