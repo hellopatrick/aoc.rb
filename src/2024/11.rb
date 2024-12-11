@@ -3,11 +3,11 @@
 stones = ARGF.read.strip.split.map(&:to_i)
 
 class Solver
-  @cache = {}
+  def initialize
+    @cache = {}
+  end
 
   def solve(stone, steps)
-    @cache ||= {}
-
     return @cache[[stone, steps]] if @cache[[stone, steps]]
 
     return 1 if steps.zero?
