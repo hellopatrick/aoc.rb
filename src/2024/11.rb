@@ -8,14 +8,13 @@ class Solver
   end
 
   def solve(stone, steps)
-    return @cache[[stone, steps]] if @cache[[stone, steps]]
-
     return 1 if steps.zero?
-    return solve(1, steps - 1) if stone.zero?
 
     s = stone.to_s
 
-    @cache[[stone, steps]] ||= if s.size.even?
+    @cache[[stone, steps]] ||= if stone.zero?
+                                 solve(1, steps - 1)
+                               elsif s.size.even?
                                  solve(s[0...s.size / 2].to_i, steps - 1) + solve(s[s.size / 2..].to_i, steps - 1)
                                else
                                  solve(stone * 2024, steps - 1)
